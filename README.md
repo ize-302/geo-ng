@@ -1,6 +1,6 @@
 # geo-ng
 
-A installable python package that provides geographical information about States, Local Govenment Areas and towns in Nigeria
+An installable python package that provides geographical information about States, Local Govenment Areas and towns in Nigeria
 
 
 ### Installation
@@ -24,7 +24,7 @@ from geo_ng import get_lgas
 get_lgas()
 
 
-# Get localgovenment by state
+# Get local govenment by state
 from geo_ng import get_lgas_by_state
 get_lgas_by_state(state_code)
 
