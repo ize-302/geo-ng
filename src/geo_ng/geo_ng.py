@@ -1,13 +1,15 @@
+from importlib.resources import files
 import json
 
-# Opening JSON file
-states = open('src/geo_ng/data/states.json')
-lgas = open('src/geo_ng/data/lgas.json')
-towns = open('src/geo_ng/data/towns.json')
 
-states_data = json.load(states)
-lgas_data = json.load(lgas)
-towns_data = json.load(towns)
+def load_file(json_file):
+    data = files("geo_ng.data").joinpath(json_file).read_text()
+    return json.loads(data)
+
+
+states_data = load_file('states.json')
+lgas_data = load_file('lgas.json')
+towns_data = load_file('towns.json')
 
 
 def get_states():
@@ -28,9 +30,12 @@ def get_lgas():
 
 def get_lgas_by_state(state_code):
     filtered = [lga for lga in lgas_data if lga["state"] == state_code]
-    return {"name": "LGAs by state", "count": len(filtered), "items": filtered}
+    find_state = next((item for item in states_data if item["code"] == state_code), False)
+    return {"name": "LGAs by state", "state": find_state['name'], "count": len(filtered), "items": filtered}
 
 
 def get_towns_by_lga(lga_code):
     filtered = [town for town in towns_data if town["lga"] == lga_code]
-    return {"name": "Towns by lga", "count": len(filtered), "items": filtered}
+    find_lga = next((item for item in lgas_data if item["code"] == lga_code), False)
+    print(find_lga)
+    return {"name": "Towns by lga", "lga": find_lga['name'], "count": len(filtered), "items": filtered}
